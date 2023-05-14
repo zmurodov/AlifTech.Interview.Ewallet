@@ -125,4 +125,35 @@ public class WalletService : IWalletService
         
         return true;
     }
+
+    public async Task<ReplenishmentsForMonthResponse> GetReplenishmentsForMonthAsync(string walletId, DateTime month,
+        CancellationToken cancellationToken = default)
+    {
+        using var transaction = _context.BeginTransaction();
+        var exists =
+            await _walletRepository.IsWalletExistsAsync(walletId, transaction, cancellationToken: cancellationToken);
+
+        if (!exists)
+        {
+            throw new WalletNotFoundException("Wallet not found");
+        }
+        
+        var passedMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+        var count = await _walletRepository.GetReplenishmentsCountForMonthAsync(walletId, passedMonth, transaction,
+            cancellationToken);
+        var sum = await _walletRepository.GetReplenishmentsSumForMonthAsync(walletId, passedMonth, transaction,
+            cancellationToken);
+        var replenishments =
+            await _walletRepository.GetReplenishmentsForMonthAsync(walletId, passedMonth, transaction, cancellationToken);
+
+        return new ReplenishmentsForMonthResponse
+        {
+            TotalCount = count,
+            TotalSum = sum,
+            Replenishments = replenishments,
+            WalletId = walletId,
+            Month = passedMonth
+        };
+    }
 }

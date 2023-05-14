@@ -1,13 +1,16 @@
 ﻿using System.Data;
+using AlifTech.Interview.Ewallet.Auth;
 using AlifTech.Interview.Ewallet.Exceptions;
 using AlifTech.Interview.Ewallet.Models;
 using AlifTech.Interview.Ewallet.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlifTech.Interview.Ewallet.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(AuthenticationSchemes = DigestAuthenticationDefaults.AuthenticationScheme)]
 public class EwalletController : ControllerBase
 {
     /// <summary>
@@ -61,6 +64,35 @@ public class EwalletController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///  Get replenishments for month
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="walletService"></param>
+    /// <returns></returns>
+    [HttpPost("get-replenishments-for-month")]
+    public async Task<IActionResult> GetReplenishmentsForMonthAsync(
+        [FromBody] GetReplenishmentsForMonthRequest request,
+        [FromServices] IWalletService walletService)
+    {
+        if (request == null)
+            return BadRequest();
+        try
+        {
+            var response = await walletService
+                .GetReplenishmentsForMonthAsync(request.WalletId, request.Month);
+
+            return Ok(response);
+        }
+        catch (WalletNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
+    }
 
     /// <summary>
     ///  Update wallet balance

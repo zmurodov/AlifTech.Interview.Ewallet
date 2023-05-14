@@ -8,4 +8,6 @@ public interface IWalletService
     Task<bool> IsWalletExistsAsync(string walletId, CancellationToken cancellationToken = default);
     Task<decimal> GetBalanceAsync(string walletId, CancellationToken cancellationToken = default);
     Task<bool> UpdateBalanceAsync(string walletId, decimal amount, CancellationToken cancellationToken = default);
+    Task<ReplenishmentsForMonthResponse> GetReplenishmentsForMonthAsync(string walletId, DateTime month,
+        CancellationToken cancellationToken = default);
 }

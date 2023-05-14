@@ -87,7 +87,7 @@ public class WalletRepository : IWalletRepository
             "SELECT COUNT(*) FROM replenishments WHERE wallet_id = @WalletId AND date_trunc('month', date) = @Month";
 
         var count = await _context.Connection
-            .QueryFirstAsync<int>(sql, new { WalletId = walletId, Month = month }, transaction: transaction)
+            .QueryFirstOrDefaultAsync<int>(sql, new { WalletId = walletId, Month = month }, transaction: transaction)
             .ConfigureAwait(false);
 
         return count;
@@ -101,9 +101,9 @@ public class WalletRepository : IWalletRepository
             "SELECT SUM(amount) FROM replenishments WHERE wallet_id = @WalletId AND date_trunc('month', date) = @Month";
 
         var sum = await _context.Connection
-            .QueryFirstAsync<decimal>(sql, new { WalletId = walletId, Month = month }, transaction: transaction)
+            .QueryFirstOrDefaultAsync<decimal?>(sql, new { WalletId = walletId, Month = month }, transaction: transaction)
             .ConfigureAwait(false);
 
-        return sum;
+        return sum ?? 0;
     }
 }
