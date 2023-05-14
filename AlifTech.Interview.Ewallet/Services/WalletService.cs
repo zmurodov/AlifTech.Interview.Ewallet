@@ -111,8 +111,6 @@ public class WalletService : IWalletService
         var userId =
             _httpContextAccessor.HttpContext?.User.FindFirstValue(DigestAuthenticationDefaults.UserIdClaimType);
 
-        Console.WriteLine(userId);
-
         await _walletRepository.InsertReplenishmentAsync(
                 userId, 
                 walletId,
