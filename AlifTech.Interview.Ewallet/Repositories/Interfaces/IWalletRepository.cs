@@ -11,7 +11,8 @@ public interface IWalletRepository
     Task<Wallet> GetWalletAsync(string walletId, IDbTransaction transaction = null,
         CancellationToken cancellationToken = default);
 
-    Task<bool> UpdateBalanceAsync(string walletId, decimal balance, IDbTransaction transaction = null,
+    Task<bool> UpdateBalanceAsync(string walletId, decimal newBalance, decimal oldBalance,
+        IDbTransaction transaction = null,
         CancellationToken cancellationToken = default);
 
     Task InsertReplenishmentAsync(string userId, string walletId, decimal amount,
