@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<Database>();
 builder.Services.AddScoped<IDapperDbContext, DapperDbContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
