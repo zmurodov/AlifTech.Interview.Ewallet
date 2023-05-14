@@ -1,6 +1,7 @@
 using System.Reflection;
 using AlifTech.Interview.Ewallet.Auth;
 using AlifTech.Interview.Ewallet.Data;
+using AlifTech.Interview.Ewallet.Filters;
 using AlifTech.Interview.Ewallet.Repositories;
 using AlifTech.Interview.Ewallet.Repositories.Interfaces;
 using AlifTech.Interview.Ewallet.Services;
@@ -11,7 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.OperationFilter<SwaggerDigestAuthHeadersFilter>();
+    
+    // using System.Reflection;
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 builder.Services.AddHttpContextAccessor();
 
