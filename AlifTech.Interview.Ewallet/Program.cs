@@ -23,6 +23,8 @@ builder.Services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
 
+builder.Services.AddTransient<IDigestGenerator, DigestGenerator>();
+
 builder.Services.AddLogging(x => x.AddFluentMigratorConsole());
 builder.Services.AddFluentMigratorCore()
     .ConfigureRunner(c => c.AddPostgres()
