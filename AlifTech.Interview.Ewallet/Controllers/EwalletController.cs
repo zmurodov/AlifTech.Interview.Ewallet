@@ -127,7 +127,7 @@ public class EwalletController : ControllerBase
         {
             return BadRequest(e.Message);
         }
-        catch (DBConcurrencyException e)
+        catch (DBConcurrencyException)
         {
             return Conflict("Failed to update balance");
         }

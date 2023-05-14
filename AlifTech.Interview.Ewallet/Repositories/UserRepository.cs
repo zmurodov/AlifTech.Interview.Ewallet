@@ -15,7 +15,7 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    public async Task<User> GetUserAsync(string userId, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task<User> GetUserAsync(string userId, IDbTransaction transaction = null, CancellationToken cancellationToken = default)
     {
         var sql = @"SELECT * FROM ""users"" WHERE ""id"" = @UserId";
         

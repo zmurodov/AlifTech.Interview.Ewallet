@@ -27,7 +27,7 @@ public class WalletRepository : IWalletRepository
         return count > 0;
     }
 
-    public async Task<Wallet> GetWalletAsync(string walletId, IDbTransaction? transaction = null,
+    public async Task<Wallet> GetWalletAsync(string walletId, IDbTransaction transaction = null,
         CancellationToken cancellationToken = default)
     {
         var sql =
@@ -41,7 +41,7 @@ public class WalletRepository : IWalletRepository
     }
 
     public async Task<bool> UpdateBalanceAsync(string walletId, decimal newBalance, decimal oldBalance,
-        IDbTransaction? transaction = null,
+        IDbTransaction transaction = null,
         CancellationToken cancellationToken = default)
     {
         var sql = @"UPDATE wallets SET balance = @NewBalance WHERE id = @WalletId AND balance = @OldBalance";
@@ -67,7 +67,7 @@ public class WalletRepository : IWalletRepository
     }
 
     public async Task<List<Replenishment>> GetReplenishmentsForMonthAsync(string walletId, DateTime month,
-        IDbTransaction? transaction = null,
+        IDbTransaction transaction = null,
         CancellationToken cancellationToken = default)
     {
         var sql = "SELECT id as Id, user_id as UserId, amount as Amount, wallet_id as WalletId, date as Date FROM replenishments WHERE wallet_id = @WalletId AND date_trunc('month', date) = @Month";
@@ -80,7 +80,7 @@ public class WalletRepository : IWalletRepository
     }
 
     public async Task<int> GetReplenishmentsCountForMonthAsync(string walletId, DateTime month,
-        IDbTransaction? transaction = null,
+        IDbTransaction transaction = null,
         CancellationToken cancellationToken = default)
     {
         var sql =
