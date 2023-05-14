@@ -1,4 +1,5 @@
 using System.Reflection;
+using AlifTech.Interview.Ewallet.Auth;
 using AlifTech.Interview.Ewallet.Data;
 using AlifTech.Interview.Ewallet.Repositories;
 using AlifTech.Interview.Ewallet.Repositories.Interfaces;
@@ -13,6 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddAuthentication(DigestAuthenticationDefaults.AuthenticationScheme)
+    .AddDigestAuthentication();
 
 builder.Services.AddScoped<Database>();
 builder.Services.AddScoped<IDapperDbContext, DapperDbContext>();
@@ -42,7 +46,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 
 app.Run();
