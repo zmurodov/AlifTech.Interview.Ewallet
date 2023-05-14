@@ -1,20 +1,28 @@
+using System.Reflection;
+using AlifTech.Interview.Ewallet.Data;
+using FluentMigrator.Runner;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<Database>();
+
+builder.Services.AddLogging(x => x.AddFluentMigratorConsole());
+builder.Services.AddFluentMigratorCore()
+    .ConfigureRunner(c => c.AddPostgres()
+        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("Default"))
+        .ScanIn(Assembly.GetExecutingAssembly()).For.All());
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.MigrateDatabase(builder.Configuration["Database:Default"]);
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
