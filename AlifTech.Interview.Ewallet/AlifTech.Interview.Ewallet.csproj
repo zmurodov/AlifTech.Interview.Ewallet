@@ -18,4 +18,15 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Data\Scripts\M0001_Create_Users_Table.sql" />
+      <EmbeddedResource Include="Data\Scripts\M0001_Create_Users_Table.sql" />
+      <None Remove="Data\Scripts\M0002_Create_WalletType_Table.sql" />
+      <EmbeddedResource Include="Data\Scripts\M0002_Create_WalletType_Table.sql" />
+      <None Remove="Data\Scripts\M0003_Create_Wallets_Table.sql" />
+      <EmbeddedResource Include="Data\Scripts\M0003_Create_Wallets_Table.sql" />
+      <None Remove="Data\Scripts\M0004_Create_Replenishments_Table.sql" />
+      <EmbeddedResource Include="Data\Scripts\M0004_Create_Replenishments_Table.sql" />
+    </ItemGroup>
+
 </Project>
