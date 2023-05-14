@@ -27,6 +27,10 @@
       <EmbeddedResource Include="Data\Scripts\M0003_Create_Wallets_Table.sql" />
       <None Remove="Data\Scripts\M0004_Create_Replenishments_Table.sql" />
       <EmbeddedResource Include="Data\Scripts\M0004_Create_Replenishments_Table.sql" />
+      <None Remove="Data\Scripts\M0005_Seed_Data.sql" />
+      <EmbeddedResource Include="Data\Scripts\M0005_Seed_Data.sql" />
+      <None Remove="Data\Scripts\M0005_Seed_Data_Down.sql" />
+      <EmbeddedResource Include="Data\Scripts\M0005_Seed_Data_Down.sql" />
     </ItemGroup>
 
 </Project>
