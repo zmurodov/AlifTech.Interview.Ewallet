@@ -40,11 +40,18 @@ public class WalletRepository : IWalletRepository
         return wallet;
     }
 
-    public async Task<bool> UpdateBalanceAsync(string walletId, decimal balance,
+    public async Task<bool> UpdateBalanceAsync(string walletId, decimal newBalance, decimal oldBalance,
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var sql = @"UPDATE wallets SET balance = @NewBalance WHERE id = @WalletId AND balance = @OldBalance";
+
+        var affectedRows = await _context.Connection
+            .ExecuteAsync(sql, new { WalletId = walletId, NewBalance = newBalance, OldBalance = oldBalance },
+                transaction: transaction)
+            .ConfigureAwait(false);
+
+        return affectedRows > 0;
     }
 
     public async Task InsertReplenishmentAsync(string userId, string walletId, decimal amount,

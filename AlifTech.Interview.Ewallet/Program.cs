@@ -2,6 +2,8 @@ using System.Reflection;
 using AlifTech.Interview.Ewallet.Data;
 using AlifTech.Interview.Ewallet.Repositories;
 using AlifTech.Interview.Ewallet.Repositories.Interfaces;
+using AlifTech.Interview.Ewallet.Services;
+using AlifTech.Interview.Ewallet.Services.Interfaces;
 using FluentMigrator.Runner;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,9 @@ builder.Services.AddScoped<IDapperDbContext, DapperDbContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IWalletService, WalletService>();
 
 builder.Services.AddLogging(x => x.AddFluentMigratorConsole());
 builder.Services.AddFluentMigratorCore()
