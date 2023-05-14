@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Security.Claims;
+using AlifTech.Interview.Ewallet.Auth;
 using AlifTech.Interview.Ewallet.Data;
 using AlifTech.Interview.Ewallet.Exceptions;
 using AlifTech.Interview.Ewallet.Models;
@@ -105,6 +107,19 @@ public class WalletService : IWalletService
         {
             throw new DBConcurrencyException("Wallet balance was updated by another transaction");
         }
+
+        var userId =
+            _httpContextAccessor.HttpContext?.User.FindFirstValue(DigestAuthenticationDefaults.UserIdClaimType);
+
+        Console.WriteLine(userId);
+
+        await _walletRepository.InsertReplenishmentAsync(
+                userId, 
+                walletId,
+                amount,
+                transaction: transaction,
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         transaction.Commit();
         
